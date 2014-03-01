@@ -68,8 +68,8 @@ static void get_message()
   if (app_message_outbox_begin(&iter) != APP_MSG_OK) {
     return;
   }
-  Tuplet value = TupletInteger(0, 1);
-  dict_write_tuplet(iter, &value); 
+  //Tuplet value = TupletInteger(0, 1);
+  dict_write_cstring(iter, 0, "hello"); 
   // app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
   /*while(click_recognizer_get_button_id(select_click_handler) != BUTTON_ID_SELECT)
   {
