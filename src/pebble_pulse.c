@@ -25,30 +25,9 @@ static TextLayer *text_layer;
  }
 
 // Read message with button input and send to phone
-static bool get_message()
-{
-  DictionaryIterator *iter;
-  app_message_outbox_begin(&iter);
-  
-  // app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
-  while(click_recognizer_get_button_id(select_click_handler) != BUTTON_ID_SELECT)
-  {
-    if(click_recognizer_get_button_id(select_click_handler) == BUTTON_ID_UP) {
-      Tuplet value = TupletInteger(inc, 0);
-      dict_write_tuplet(iter, &value); 
-      inc++;
-    } else if (click_recognizer_get_button_id(select_click_handler) == BUTTON_ID_DOWN) {
-      Tuplet value = TupletInteger(inc, 1);
-      dict_write_tuplet(iter, &value);
-      inc++; 
-    } else {
-      text_layer_set_text(text_layer, "Invalid Button!");
-    }
-  }
-}
 static void send_morse_code()
 {
-    app_message_out_send();
+    //app_message_out_send();
 }
 
 static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
@@ -82,6 +61,27 @@ static void window_load(Window *window) {
 
 static void window_unload(Window *window) {
   text_layer_destroy(text_layer);
+}
+static void get_message()
+{
+  DictionaryIterator *iter;
+  app_message_outbox_begin(&iter);
+  
+  // app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
+  while(click_recognizer_get_button_id(select_click_handler) != BUTTON_ID_SELECT)
+  {
+    if(click_recognizer_get_button_id(select_click_handler) == BUTTON_ID_UP) {
+      Tuplet value = TupletInteger(inc, 0);
+      dict_write_tuplet(iter, &value); 
+      inc++;
+    } else if (click_recognizer_get_button_id(select_click_handler) == BUTTON_ID_DOWN) {
+      Tuplet value = TupletInteger(inc, 1);
+      dict_write_tuplet(iter, &value);
+      inc++; 
+    } else {
+      text_layer_set_text(text_layer, "Invalid Button!");
+    }
+  }
 }
 
 static void init(void) {
