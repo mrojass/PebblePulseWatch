@@ -82,6 +82,8 @@ static void get_message()
       text_layer_set_text(text_layer, "Invalid Button!");
     }
   }
+  app_message_out_send();
+  
 }
 
 static void init(void) {
@@ -101,7 +103,7 @@ static void init(void) {
   const uint32_t inbound_size = 64;
   const uint32_t outbound_size = 64;
   app_message_open(inbound_size, outbound_size);
-  get_message();
+  //get_message();
   
   const bool animated = true;
   window_stack_push(window, animated);
