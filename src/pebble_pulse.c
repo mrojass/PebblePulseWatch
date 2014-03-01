@@ -65,7 +65,9 @@ static void window_unload(Window *window) {
 static void get_message()
 {
   DictionaryIterator *iter;
-  app_message_outbox_begin(&iter);
+  if (app_message_outbox_begin(&iter) != APP_MSG_OK) {
+    return;
+  }
   
   // app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());
   while(click_recognizer_get_button_id(select_click_handler) != BUTTON_ID_SELECT)
@@ -82,8 +84,7 @@ static void get_message()
       text_layer_set_text(text_layer, "Invalid Button!");
     }
   }
-  app_message_out_send();
-  
+  app_message_outbox_send();
 }
 
 static void init(void) {
@@ -103,7 +104,7 @@ static void init(void) {
   const uint32_t inbound_size = 64;
   const uint32_t outbound_size = 64;
   app_message_open(inbound_size, outbound_size);
-  //get_message();
+  get_message();
   
   const bool animated = true;
   window_stack_push(window, animated);
@@ -119,5 +120,6 @@ int main(void) {
   APP_LOG(APP_LOG_LEVEL_DEBUG, "Done initializing, pushed window: %p", window);
 
   app_event_loop();
+
   deinit();
 }
