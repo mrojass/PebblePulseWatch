@@ -40,16 +40,17 @@ void send_message(void){
 	app_message_outbox_begin(&iter);
 	dict_write_uint8(iter, STATUS_KEY, 0x1);
 	dict_write_cstring(iter, MESSAGE_KEY, "Hi Phone, I'm a Pebble!");
-	while(click_recognizer_get_button_id(select_click_handler) != BUTTON_ID_SELECT)
-   {
+	//while(click_recognizer_get_button_id(select_click_handler) != BUTTON_ID_SELECT)
+    //{
 	    if(click_recognizer_get_button_id(select_click_handler) == BUTTON_ID_UP) {
 	      dict_write_cstring(iter, MESSAGE_KEY, ".");
 	    } else if (click_recognizer_get_button_id(select_click_handler) == BUTTON_ID_DOWN) {
 	      dict_write_cstring(iter, MESSAGE_KEY, "-");
 	    } else {
 	      dict_write_cstring(iter, MESSAGE_KEY, "\nInvalid Button\n");
+	      //break;
 		}
-	}
+	//}
 	dict_write_end(iter);
   	app_message_outbox_send();
 }
