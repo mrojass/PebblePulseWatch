@@ -11,27 +11,9 @@ enum {
 };
 
 enum {
-	RECEIVE_KEY = 0,
-	SEND_KEY = 1
+	RECEIVE_KEY = 0;
+	SEND_KEY = 1;
 };
-
-static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
-  text_layer_set_text(text_layer, "Message Sent!");
-}
-
-static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
-  text_layer_set_text(text_layer, "Up");
-}
-
-static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
-  text_layer_set_text(text_layer, "Down");
-}
-
-static void click_config_provider(void *context) {
-  window_single_click_subscribe(BUTTON_ID_SELECT, select_click_handler);
-  window_single_click_subscribe(BUTTON_ID_UP, up_click_handler);
-  window_single_click_subscribe(BUTTON_ID_DOWN, down_click_handler);
-}
 
 // Write message to buffer & send
 void send_message(void){
@@ -48,7 +30,6 @@ void send_message(void){
 	      dict_write_cstring(iter, MESSAGE_KEY, "-");
 	    } else {
 	      dict_write_cstring(iter, MESSAGE_KEY, "\nInvalid Button\n");
-		}
 	}
 	dict_write_end(iter);
   	app_message_outbox_send();
@@ -76,6 +57,25 @@ static void in_dropped_handler(AppMessageResult reason, void *context) {
 static void out_failed_handler(DictionaryIterator *failed, AppMessageResult reason, void *context) {
 }
 
+static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
+  //send_morse_code();
+  text_layer_set_text(text_layer, "Message Sent!");
+}
+
+static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
+  text_layer_set_text(text_layer, "Up");
+}
+
+static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
+  text_layer_set_text(text_layer, "Down");
+}
+
+static void click_config_provider(void *context) {
+  window_single_click_subscribe(BUTTON_ID_SELECT, select_click_handler);
+  window_single_click_subscribe(BUTTON_ID_UP, up_click_handler);
+  window_single_click_subscribe(BUTTON_ID_DOWN, down_click_handler);
+}
+
 static void window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
@@ -97,7 +97,7 @@ void init(void) {
     	.load = window_load,
     	.unload = window_unload,
     });
-    // const bool animated = true;
+    const bool animated = true;
 	window_stack_push(window, true);
 	
 	// Register AppMessage handlers
